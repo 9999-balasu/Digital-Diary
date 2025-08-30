@@ -558,12 +558,23 @@ export default function TextEntries() {
       rec.interimResults = true;
       rec.lang = "en-US";
 
+      // rec.onresult = (event: SpeechRecognitionEvent) => {
+      //   const transcript = Array.from(event.results)
+      //     .map((result) => result[0].transcript)
+      //     .join("");
+      //   setText(transcript);
+      // };
       rec.onresult = (event: SpeechRecognitionEvent) => {
-        const transcript = Array.from(event.results)
-          .map((result) => result[0].transcript)
-          .join("");
-        setText(transcript);
-      };
+  const transcript = Array.from(event.results)
+    .map((result) => {
+      const r = result as SpeechRecognitionResult; // cast result to correct type
+      return r[0].transcript;
+    })
+    .join("");
+    
+  setText(transcript);
+};
+
 
       rec.onend = () => setListening(false);
 
@@ -608,7 +619,7 @@ export default function TextEntries() {
       rec.onresult = async (event: SpeechRecognitionEvent) => {
   const transcript = Array.from(event.results)
     .map((result) => {
-      const r = result as SpeechRecognitionResult; // cast to correct type
+      const r = result as SpeechRecognitionResult; // cast result
       return r[0].transcript;
     })
     .join("");
