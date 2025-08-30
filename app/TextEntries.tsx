@@ -612,7 +612,7 @@ export default function TextEntries() {
       return r[0].transcript;
     })
     .join("");
-  
+
   const translated = await translateToEnglish(transcript);
   setText(translated);
 };
