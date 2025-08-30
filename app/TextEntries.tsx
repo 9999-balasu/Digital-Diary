@@ -597,13 +597,26 @@ export default function TextEntries() {
       rec.interimResults = true;
       rec.lang = "te-IN";
 
+      // rec.onresult = async (event: SpeechRecognitionEvent) => {
+      //   const transcript = Array.from(event.results)
+      //     .map((result) => result[0].transcript)
+      //     .join("");
+      //   const translated = await translateToEnglish(transcript);
+      //   setText(translated);
+      // };
+
       rec.onresult = async (event: SpeechRecognitionEvent) => {
-        const transcript = Array.from(event.results)
-          .map((result) => result[0].transcript)
-          .join("");
-        const translated = await translateToEnglish(transcript);
-        setText(translated);
-      };
+  const transcript = Array.from(event.results)
+    .map((result) => {
+      const r = result as SpeechRecognitionResult; // cast to correct type
+      return r[0].transcript;
+    })
+    .join("");
+  
+  const translated = await translateToEnglish(transcript);
+  setText(translated);
+};
+
 
       rec.onend = () => setTeluguListening(false);
 
